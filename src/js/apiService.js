@@ -12,8 +12,7 @@ const apiService = {
       .then(({ hits }) => {
         this.page += 1;
         return hits;
-      })
-      .catch(error => console.log(error));
+      });
   },
 
   pageReset() {

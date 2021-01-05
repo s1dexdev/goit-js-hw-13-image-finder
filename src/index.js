@@ -1,6 +1,7 @@
 import galleryTemplate from './templates/gallery.hbs';
 import apiService from './js/apiService.js';
 import * as basicLightbox from 'basiclightbox';
+import showMessage from './js/notification.js';
 import '../node_modules/basiclightbox/dist/basicLightbox.min.css';
 import './styles/style.css';
 
@@ -41,11 +42,18 @@ refs.gallery.addEventListener('click', event => {
 function createGalleryMarkup() {
   apiService.fetchQuery().then(articles => {
     refs.gallery.insertAdjacentHTML('beforeend', galleryTemplate(articles));
-
-    onObserve();
+    checkQueryResult(articles);
   });
+}
 
-  refs.linkArrow.classList.remove('hidden');
+function checkQueryResult(data) {
+  if (data.length === 0) {
+    showMessage();
+    refs.linkArrow.classList.add('hidden');
+  } else {
+    onObserve();
+    refs.linkArrow.classList.remove('hidden');
+  }
 }
 
 function modalShow(url) {
